@@ -1,9 +1,9 @@
 export const userLoginBody = { email: "murray.isaiah13@gmail.com", password: "test" };
-export const userRegisterBody = { username: "", email: "", password: "" };
+export const userRegisterBody = { username: "New Writer", email: "user1@email.com", password: "test" };
 export const userUpdateBody = {
-    username: "",
-    // email: "",
-    // password: ""
+    // username: "New Name",
+    // email: "murray.isaiah13@gmail.com",
+    password: "test"
 };
 export const userPatchBody = {};
 
