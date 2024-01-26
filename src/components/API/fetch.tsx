@@ -1,6 +1,5 @@
 import { Token } from "../../types";
 
-
 type PropType = {
   setSessionToken: React.Dispatch<React.SetStateAction<Token | null>>;
 };

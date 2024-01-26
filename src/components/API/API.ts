@@ -104,4 +104,3 @@ export const deleteData = async (url: string) => {
     }
   }
 }
-

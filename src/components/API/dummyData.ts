@@ -1,5 +1,9 @@
 export const userLoginBody = { email: "murray.isaiah13@gmail.com", password: "test" };
+<<<<<<< HEAD
 export const userRegisterBody = { username: "New Admin Gorl", email: "admin3@email.com", password: "test" };
+=======
+export const userRegisterBody = { username: "New Writer", email: "user1@email.com", password: "test" };
+>>>>>>> 6bb86147bb19646e95fcb7f633978ce355465995
 export const userUpdateBody = {
     // username: "New Name",
     // email: "murray.isaiah13@gmail.com",
