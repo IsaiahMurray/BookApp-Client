@@ -1,11 +1,11 @@
 export const userLoginBody = { email: "murray.isaiah13@gmail.com", password: "test" };
-export const userRegisterBody = { username: "", email: "", password: "" };
+export const userRegisterBody = { username: "New Admin Gorl", email: "admin3@email.com", password: "test" };
 export const userUpdateBody = {
-    username: "",
-    // email: "",
-    // password: ""
+    // username: "New Name",
+    // email: "murray.isaiah13@gmail.com",
+    password: "test"
 };
-export const userPatchBody = {};
+export const adminUpdateRole = { role: "admin" };
 
 export const bookUpdateBody = {
     author: "Zazu",
@@ -30,18 +30,18 @@ export const bookPostBody = {
     allowedUsers: [],
 };
 export const bookPatchBody = {
-    propertyName: "",
-    propertyValue: ""
+    propertyName: "author",
+    propertyValue: "Yo Mama"
 };
 
-export const chapterPostBody = { title: "", content: "", chapterNumber: 0 };
-export const chapterUpdateBody = { title: "", content: "", chapterNumber: 0 };
+export const chapterPostBody = { title: "Le First Chap", content: "I am chap", chapterNumber: 5 };
+export const chapterUpdateBody = { title: "Le First Chap", content: "I THE chap", chapterNumber: 2 };
 
-export const reviewPostBody = { rating: 4, comment: "Nice book, nerd!" };
-export const reviewUpdateBody = { rating: 4, comment: "Nice book, nerd!" };
+export const reviewPostBody = { rating: 5, comment: "Nice book, nerd!" };
+export const reviewUpdateBody = { rating: 3, comment: "I take it back, nerd!" };
 export const reviewPatchBody = {
-    propertyName: "",
-    propertyValue: ""
+    propertyName: "rating",
+    propertyValue: 1
 };
 
-export const tagBody = { tagName: "Slice of Life" };
+export const tagBody = { tagName: "To Delete" };
