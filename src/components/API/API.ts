@@ -1,11 +1,11 @@
 import axios, {  AxiosRequestConfig, AxiosResponse } from 'axios';
 
-export const getToken = (): string => {
+export const getToken = (): string | null => {
   const storedToken: string | null = localStorage.getItem("token");
   if (storedToken !== null) {
     return String(storedToken);
   } else {
-    return "null"
+    return null;
   }
 }
 
