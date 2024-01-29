@@ -1,27 +1,25 @@
-import Fetch from "./components/API/fetch";
 import "./App.css";
-import { useEffect, useState, useContext } from "react";
-import { getToken, clearToken } from "./components/API/API";
-import { BookContext, BookContextType } from "./components/Context/BookContext";
+import { useEffect, useState } from "react";
+import { getToken, clearToken, getData } from "./components/API/API";
 import { Token } from "./types";
 import React from "react";
 import { useProfileContext } from "./components/Context/ProfileContext";
+import { Layout } from "antd";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Footer from "./components/Layout/Footer";
+import Header from "./components/Layout/Header";
+import Auth from "./components/Auth/Auth";
 
-function App() {
+const { Content } = Layout;
+
+const App: React.FC = () => {
   const [sessionToken, setSessionToken] = useState<Token>(null);
   // const [loading, setLoading] = useState(false);
 
-  const { books } = useContext(BookContext) as BookContextType;
-  const { user } = useProfileContext();
+  const { user, bookList, setBookList } = useProfileContext();
 
   useEffect(() => {
-    const storedToken: string | null = getToken();
-    if (storedToken !== null) {
-      setSessionToken(storedToken);
-    } else {
-      clearToken();
-    }
-    console.log(books);
+    setContext();
   }, []);
 
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -33,15 +31,27 @@ function App() {
     return sessionToken ? <>You got Auth</> : <>Authless peasant.. Begone!!</>;
   };
 
-  return (
-    <div className="app">
-      {protectedViews()}
-      <h2>{user ? `Logged in as ${user.username}` : "Not logged in"}</h2>
+  const setContext = async () => {
+    const storedToken: string | null = getToken();
+    if (storedToken !== null) {
+      setSessionToken(storedToken);
+      const res = await getData("http://localhost:4000/book/get/all");
+      setBookList(res?.data.content);
+      console.log(bookList);
+    } else {
+      clearToken();
+    }
+  };
 
-      <Fetch setSessionToken={setSessionToken}/>
-      <button onClick={handleClick}>Logout</button>
-    </div>
+  return (
+    <Layout>
+      <Header />
+      <Content style={{ padding: "48px" }}>
+        <Auth />
+      </Content>
+      <Footer />
+    </Layout>
   );
-}
+};
 
 export default App;
