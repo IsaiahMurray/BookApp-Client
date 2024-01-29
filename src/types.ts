@@ -71,3 +71,14 @@ export interface ITag  {
     id: number,
     tagName: string
 }
+
+export interface IColorPalette {
+    primary: string,
+    secondary: string,
+    success: string,
+    info: string,
+    warning: string,
+    danger: string,
+    light: string,
+    dark: string,
+}
