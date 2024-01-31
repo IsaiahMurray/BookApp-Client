@@ -1,5 +1,5 @@
 import { Button, Menu, MenuItem, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, NavigateFunction } from "react-router-dom";
 import { clearToken } from "../API/API";
 
 type NavMenuPropTypes = {
@@ -49,6 +49,7 @@ type UserMenuPropTypes = {
   handleCloseUserMenu: (event: React.MouseEvent<HTMLElement>) => void;
   handleOpenUserMenu: (event: React.MouseEvent<HTMLElement>) => void;
   anchorElUser: null | HTMLElement;
+  navigate: NavigateFunction
 };
 export const UserMenu = (props: UserMenuPropTypes) => {
   return (
@@ -84,7 +85,7 @@ export const UserMenu = (props: UserMenuPropTypes) => {
         <MenuItem>
           <Button
             onClick={() => {
-              props.handleCloseUserMenu, clearToken();
+              props.handleCloseUserMenu, clearToken(), props.navigate("/")
             }}
           >
             <Typography textAlign="center">Logout</Typography>
