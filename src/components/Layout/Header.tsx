@@ -40,7 +40,7 @@ function Header() {
   };
 
   return (
-    <AppBar position="absolute">
+    <AppBar position="absolute" style={{marginBottom: 0}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
