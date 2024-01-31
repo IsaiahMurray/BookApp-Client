@@ -2,7 +2,7 @@ import axios, {  AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export const getToken = (): string | null => {
   const storedToken: string | null = localStorage.getItem("token");
-  if (storedToken !== null) {
+  if (storedToken && storedToken !== null && storedToken !== "null") {
     return String(storedToken);
   } else {
     return null;
@@ -13,9 +13,9 @@ export const updateToken = (newToken: string): void => {
   localStorage.setItem("token", newToken);
 };
 
-export const clearToken = (): null => {
-  localStorage.clear();
-  return null
+export const clearToken = (): void => {
+  localStorage.removeItem("token");
+  console.log("Token cleared from local storage")
 };
 
 export const headers: AxiosRequestConfig['headers'] = {
