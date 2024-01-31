@@ -1,15 +1,15 @@
 import { Token } from "../../types";
 
-type PropType = {
-  setSessionToken: React.Dispatch<React.SetStateAction<Token | null>>;
-};
+// type PropType = {
+//   setSessionToken: React.Dispatch<React.SetStateAction<Token | null>>;
+// };
 
-const Fetch = (props: PropType) => {
+const Fetch = () => {
 
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
-      console.log(props);
+      // console.log(props);
     } catch (error) {
       console.error("Error:", error);
     }
