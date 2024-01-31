@@ -3,9 +3,9 @@ import { IUser, FullBook, Token } from "../../types";
 
 interface ProfileContextType {
   user: IUser | null;
-  bookList: FullBook[] | null;
+  bookList: FullBook[] | [];
   setUser: React.Dispatch<React.SetStateAction<IUser | null>>;
-  setBookList: React.Dispatch<React.SetStateAction<FullBook[] | null>>;
+  setBookList: React.Dispatch<React.SetStateAction<FullBook[] | []>>;
   token: Token;
   setToken: React.Dispatch<React.SetStateAction<Token | null>>;
   loading: boolean;
@@ -30,7 +30,7 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<IUser | null>(null);
-  const [bookList, setBookList] = useState<FullBook[] | null>(null);
+  const [bookList, setBookList] = useState<FullBook[] | []>([]);
   const [token, setToken] = useState<Token>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
