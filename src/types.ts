@@ -38,7 +38,7 @@ export interface IBook {
     coverPicture: string | null,
     allowedUsers: number[],
     archived: boolean,
-    chapters?: IChapter[]
+    chapters: IChapter[] | []
 }
 
 export interface FullBook extends IBook {
