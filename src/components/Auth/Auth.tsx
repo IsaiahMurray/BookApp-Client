@@ -11,11 +11,10 @@ const Auth: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
   const [url, setUrl] = useState<string>("http://localhost:4000/user/login");
 
   const navigate = useNavigate();
-  const { setToken } = useProfileContext();
+  const { setToken, loading, setLoading } = useProfileContext();
 
   type FieldType = {
     username?: string;
@@ -25,21 +24,23 @@ const Auth: React.FC = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
-
     login
       ? setBody({ email, password })
       : setBody({ username, email, password });
 
     try {
-      const res = await postData(url, body);
+      let res;
+      login ? 
+      res = await postData(url, {email, password})
+      : res = await postData(url, {username, email, password});
+
       const data = await res?.data.content;
 
       setUser(data.user);
       setToken(data.token);
-      
+
       localStorage.setItem("token", data.token);
       navigate("/profile");
-
     } catch (error) {
       console.error("Login failed", error);
       setLoading(false);
@@ -79,15 +80,18 @@ const Auth: React.FC = () => {
       container
       justifyContent="center"
       alignItems="center"
-      style={{ minHeight: "100vh", width: "100%" }}
+      style={{ height: "auto", width: "100%" }}
     >
-      <Grid item xs={12} sm={8} md={6} lg={4}>
+      <Grid item xs={12} sm={8} md={6} lg={8}>
         <Paper
           elevation={3}
           style={{
             padding: "20px",
             textAlign: "center",
             borderRadius: "15px",
+            width: "90%",
+            maxWidth: 600, // Adjust this based on your design
+            margin: "auto",
           }}
         >
           <Typography style={{ marginBottom: "16px" }} variant="h4">
