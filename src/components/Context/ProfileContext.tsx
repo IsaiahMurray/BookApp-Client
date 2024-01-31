@@ -8,6 +8,8 @@ interface ProfileContextType {
   setBookList: React.Dispatch<React.SetStateAction<FullBook[] | null>>;
   token: Token;
   setToken: React.Dispatch<React.SetStateAction<Token | null>>;
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // const initialUser: IUser | null = null;
@@ -30,6 +32,7 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
   const [user, setUser] = useState<IUser | null>(null);
   const [bookList, setBookList] = useState<FullBook[] | null>(null);
   const [token, setToken] = useState<Token>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const contextValue: ProfileContextType = {
     user,
@@ -37,7 +40,8 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
     setUser,
     setBookList,
     token,
-    setToken
+    setToken,
+    loading, setLoading
   };
 
   return (
