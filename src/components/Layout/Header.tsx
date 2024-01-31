@@ -10,6 +10,9 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import AdbIcon from "@mui/icons-material/Adb";
 import { CollapseMenu, NavMenu, UserMenu } from "./Menu";
+import { useProfileContext } from "../Context/ProfileContext";
+import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -18,6 +21,8 @@ function Header() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+
+  const { token } = useProfileContext();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -35,7 +40,7 @@ function Header() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="absolute">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -68,7 +73,6 @@ function Header() {
             >
               <MenuIcon />
             </IconButton>
-           
           </Box>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
@@ -90,17 +94,40 @@ function Header() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <NavMenu  handleOpenNavMenu={handleOpenNavMenu} handleCloseNavMenu={handleCloseNavMenu}/>
+            <NavMenu
+              handleOpenNavMenu={handleOpenNavMenu}
+              handleCloseNavMenu={handleCloseNavMenu}
+            />
           </Box>
-          <CollapseMenu handleCloseNavMenu={handleCloseNavMenu} anchorElNav={anchorElNav}/>
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <UserMenu handleCloseUserMenu={handleCloseUserMenu} handleOpenUserMenu={handleOpenUserMenu} anchorElUser={anchorElUser}/>
-          </Box>
+          <CollapseMenu
+            handleCloseNavMenu={handleCloseNavMenu}
+            anchorElNav={anchorElNav}
+          />
+          {token ? (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+              <UserMenu
+                handleCloseUserMenu={handleCloseUserMenu}
+                handleOpenUserMenu={handleOpenUserMenu}
+                anchorElUser={anchorElUser}
+              />
+            </Box>
+          ) : (
+            <><Button
+            component={Link}
+            to="/auth"
+            onClick={handleCloseNavMenu}
+            sx={{ my: 2, color: "white", display: "block" }}
+          >
+            <Typography sx={{ textDecoration: "underline" }}>
+              Login/Signup
+            </Typography>
+          </Button></>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
