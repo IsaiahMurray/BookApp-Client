@@ -1,7 +1,6 @@
 import { Button, Menu, MenuItem, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { clearToken } from "../API/API";
-import { useProfileContext } from "../Context/ProfileContext";
 
 type NavMenuPropTypes = {
   handleOpenNavMenu: (event: React.MouseEvent<HTMLElement>) => void;
@@ -41,16 +40,6 @@ export const NavMenu = (props: NavMenuPropTypes) => {
         sx={{ my: 2, color: "white", display: "block" }}
       >
         Profile
-      </Button>
-      <Button
-        component={Link}
-        to="/auth"
-        onClick={props.handleCloseNavMenu}
-        sx={{ my: 2, color: "white", display: "block" }}
-      >
-        <Typography sx={{ textDecoration: "underline" }}>
-          Login/Signup
-        </Typography>
       </Button>
     </>
   );
@@ -112,7 +101,6 @@ type CollapseMenuPropType = {
 };
 
 export const CollapseMenu = (props: CollapseMenuPropType) => {
-  const { token } = useProfileContext();
   return (
     <>
       <Menu
@@ -156,19 +144,6 @@ export const CollapseMenu = (props: CollapseMenuPropType) => {
             <Typography textAlign="center">Reading List</Typography>
           </Button>
         </MenuItem>
-        {token ? (
-          <></>
-        ) : (
-            <MenuItem onClick={props.handleCloseNavMenu}>
-            <Button
-              component={Link}
-              to="/auth"
-              onClick={props.handleCloseNavMenu}
-            >
-              <Typography textAlign="center">Login/Signup</Typography>
-            </Button>
-          </MenuItem>
-        )}
       </Menu>
     </>
   );
