@@ -13,6 +13,9 @@ import { CollapseMenu, NavMenu, UserMenu } from "./Menu";
 import { useProfileContext } from "../Context/ProfileContext";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { getToken } from "../API/API";
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -23,6 +26,7 @@ function Header() {
   );
 
   const { token } = useProfileContext();
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -38,6 +42,10 @@ function Header() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  useEffect(() => {
+
+  }, [token])
 
   return (
     <AppBar position="absolute" style={{marginBottom: 0}}>
@@ -103,7 +111,7 @@ function Header() {
             handleCloseNavMenu={handleCloseNavMenu}
             anchorElNav={anchorElNav}
           />
-          {token ? (
+          {getToken() !== null ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -114,10 +122,12 @@ function Header() {
                 handleCloseUserMenu={handleCloseUserMenu}
                 handleOpenUserMenu={handleOpenUserMenu}
                 anchorElUser={anchorElUser}
+                navigate={navigate}
               />
             </Box>
           ) : (
             <><Button
+            key="login-signup-button" // Add key prop here
             component={Link}
             to="/auth"
             onClick={handleCloseNavMenu}
