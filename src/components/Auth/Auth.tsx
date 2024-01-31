@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, Typography, TextField, Grid, Paper } from "@mui/material";
 import { useProfileContext } from "../Context/ProfileContext";
 import { postData } from "../API/API";
-
+import { useNavigate } from "react-router-dom";
 
 const Auth: React.FC = () => {
-  const { setUser } = useProfileContext();
+  const { user, setUser } = useProfileContext();
   const [login, setLogin] = useState<boolean>(true);
   const [body, setBody] = useState<FieldType>({});
   const [username, setUsername] = useState<string>("");
@@ -14,12 +14,15 @@ const Auth: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [url, setUrl] = useState<string>("http://localhost:4000/user/login");
 
+  const navigate = useNavigate();
+  const { setToken } = useProfileContext();
+
   type FieldType = {
     username?: string;
     email?: string;
     password?: string;
   };
-  
+
   const handleSubmit = async () => {
     setLoading(true);
 
@@ -28,58 +31,75 @@ const Auth: React.FC = () => {
       : setBody({ username, email, password });
 
     try {
-      const res = await postData("http://localhost:4000/user/login", body);
-      setUser(res?.data.content.user);
-      setLoading(false);
+      const res = await postData(url, body);
+      const data = await res?.data.content;
+
+      setUser(data.user);
+      setToken(data.token);
+      
+      localStorage.setItem("token", data.token);
+      navigate("/profile");
+
     } catch (error) {
       console.error("Login failed", error);
       setLoading(false);
+    } finally {
+      if (user) {
+        setLoading(false);
+        navigate("/profile");
+      }
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await postData(url, body);
-        setUser(res?.data.content.user);
-      } catch (error) {
-        console.error("Error:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (Object.keys(body).length > 0) {
-      fetchData();
-    }
-  }, [body, setUser]);
-
   const usernameField = () => {
-    return login ? null : (
+    return login ? (
+      <></>
+    ) : (
       <TextField
         label="Username"
         variant="outlined"
         fullWidth
         value={body.username}
         onChange={(e) => setUsername(e.target.value)}
-        />
+      />
     );
   };
 
   const toggleLoginState = () => {
     setLogin(!login);
-    setUrl(login ? "http://localhost:4000/user/register" : "http://localhost:4000/user/login");
+    setUrl(
+      login
+        ? "http://localhost:4000/user/register"
+        : "http://localhost:4000/user/login"
+    );
   };
 
   return (
-    <Grid container justifyContent="center" alignItems="center" style={{ minHeight: "90vh" }}>
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      style={{ minHeight: "100vh", width: "100%" }}
+    >
       <Grid item xs={12} sm={8} md={6} lg={4}>
-        <Paper elevation={3} style={{ padding: "20px", textAlign: "center" }}>
-          <Typography style={{ marginBottom: "16px" }}>
+        <Paper
+          elevation={3}
+          style={{
+            padding: "20px",
+            textAlign: "center",
+            borderRadius: "15px",
+          }}
+        >
+          <Typography style={{ marginBottom: "16px" }} variant="h4">
             {login ? "Login" : "Register"}
           </Typography>
           <form
-            style={{ maxWidth: 600, width: "90%", padding: "20px" }}
+            style={{
+              maxWidth: 600,
+              width: "90%",
+              padding: "20px",
+              margin: "auto",
+            }}
             onSubmit={(e) => {
               e.preventDefault();
               handleSubmit();
@@ -93,6 +113,7 @@ const Auth: React.FC = () => {
               required
               value={body.email}
               onChange={(e) => setEmail(e.target.value)}
+              style={{ marginTop: "20px" }}
             />
             <TextField
               label="Password"
@@ -103,7 +124,6 @@ const Auth: React.FC = () => {
               value={body.password}
               onChange={(e) => setPassword(e.target.value)}
               style={{ marginTop: "20px" }}
-
             />
             <Button
               type="submit"
@@ -122,9 +142,14 @@ const Auth: React.FC = () => {
               color: "blue",
               textDecoration: "underline",
             }}
-            onClick={toggleLoginState}
+            onClick={() => {
+              toggleLoginState();
+              handleSubmit();
+            }}
           >
-            {login ? "Don't have an account? Register Now" : "Already have an account? Login"}
+            {login
+              ? "Don't have an account? Register Now"
+              : "Already have an account? Login"}
           </Typography>
         </Paper>
       </Grid>
